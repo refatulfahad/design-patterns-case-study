@@ -1,4 +1,6 @@
 using design_pattern_case_1.Data;
+using design_pattern_case_1.Factory;
+using design_pattern_case_1.Services;
 using design_pattern_case_1.ThirdParty;
 using design_pattern_case_1.ThirdParty.As_Sunnah;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +24,11 @@ builder.Services.AddEnyimMemcached(options =>
 {
     options.AddServer("127.0.0.1", 11211);
 });
+
+// Register Report Services (Template Method + Factory Pattern)
+builder.Services.AddSingleton<IReportFactory, ReportFactory>();
+builder.Services.AddScoped<ReportService>();
+
 builder.Services.AddSingleton<IHadithService, HadithService>();
 
 var app = builder.Build();
@@ -35,8 +42,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseEnyimMemcached();
 
-// Comment out HTTPS redirection in development
-// app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

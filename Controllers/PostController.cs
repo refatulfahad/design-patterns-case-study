@@ -36,6 +36,7 @@ namespace design_pattern_case_1.Controllers
             return Ok(post);
         }
 
+        //proxy design pattern
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPostById(int id)
         {
@@ -116,6 +117,7 @@ namespace design_pattern_case_1.Controllers
             });
         }
 
+        //Decorator design pattern
         // hadith service 
         /// <summary>
         /// Retrieves a random Hadith.

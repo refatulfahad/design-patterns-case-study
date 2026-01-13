@@ -16,6 +16,7 @@ namespace design_pattern_case_1.Controllers
             this.appDbContext = applicationDbContext;
         }
 
+        //Composite Design Pattern
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBundleById(int id)
         {
