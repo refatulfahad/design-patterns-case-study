@@ -18,6 +18,8 @@ namespace design_pattern_case_1.Data
         public DbSet<Entity.Book.Book> Books { get; set; }
         public DbSet<Entity.Book.Bundle> Bundles { get; set; }
 
+        //App Config
+        public DbSet<AppConfig> AppConfigs { get; set; }
 
         // OPTION: You can remove OnModelCreating if you want EF Core conventions
         // OR keep it for explicit control over relationships and delete behavior

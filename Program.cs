@@ -20,6 +20,10 @@ builder.Services.AddRouting(options =>
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
 ));
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
 builder.Services.AddEnyimMemcached(options =>
 {
     options.AddServer("127.0.0.1", 11211);
