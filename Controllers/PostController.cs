@@ -1,6 +1,7 @@
 ﻿using design_pattern_case_1.Data;
 using design_pattern_case_1.DTO;
 using design_pattern_case_1.Entity;
+using design_pattern_case_1.Services;
 using design_pattern_case_1.ThirdParty.As_Sunnah;
 using Enyim.Caching;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +16,18 @@ namespace design_pattern_case_1.Controllers
         private readonly AppDbContext appDbContext;
         private readonly IMemcachedClient memcachedClient;
         private readonly IHadithService _hadithService;
+        private readonly ConfigService configService;
 
-        public PostController(AppDbContext applicationDbContext, IMemcachedClient memcachedClient, IHadithService hadithService)
+        public PostController(AppDbContext applicationDbContext, 
+            IMemcachedClient memcachedClient, 
+            IHadithService hadithService,
+            ConfigService configService
+            )
         {
             this.appDbContext = applicationDbContext;
             this.memcachedClient = memcachedClient;
             this._hadithService = hadithService;
+            this.configService = configService;
         }
 
         [HttpPost]
@@ -55,6 +62,11 @@ namespace design_pattern_case_1.Controllers
         [HttpPost("{id}/comments")]
         public async Task<IActionResult> AddComment(int id, [FromBody] CreateCommentDto comment)
         {
+            if(await configService.GetConfigValue("comment_status") == "false")
+            {
+                return BadRequest(new { message = "Comments are disabled." });
+            }
+
             var data = new Comment()
             {
                 CommentText = comment.CommentText,

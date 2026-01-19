@@ -32,7 +32,7 @@ builder.Services.AddEnyimMemcached(options =>
 // Register Report Services (Template Method + Factory Pattern)
 builder.Services.AddSingleton<IReportFactory, ReportFactory>();
 builder.Services.AddScoped<ReportService>();
-
+builder.Services.AddScoped<ConfigService>();
 builder.Services.AddSingleton<IHadithService, HadithService>();
 
 var app = builder.Build();
