@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using design_pattern_case_1.Enum;
+using System.ComponentModel.DataAnnotations;
 
 namespace design_pattern_case_1.Entity
 {
@@ -15,6 +16,10 @@ namespace design_pattern_case_1.Entity
 
         // Reputation system
         public int Reputation { get; set; } = 0;
+
+        public UserStatus Status { get; set; } = UserStatus.Active;
+
+        public int ViolationCount { get; set; } = 0;
 
         //Navigation properties
         public ICollection<Post> Posts { get; set; } = new List<Post>();
