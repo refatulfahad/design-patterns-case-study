@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapr.AspNetCore" Version="1.16.1" />
+    <PackageReference Include="DotnetBadWordDetector" Version="2.0.0" />
     <PackageReference Include="EnyimMemcachedCore" Version="3.4.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.22" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.22" />

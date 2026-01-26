@@ -1,5 +1,6 @@
 using design_pattern_case_1.Data;
 using design_pattern_case_1.Factory;
+using design_pattern_case_1.Notification;
 using design_pattern_case_1.Services;
 using design_pattern_case_1.ThirdParty;
 using design_pattern_case_1.ThirdParty.As_Sunnah;
@@ -9,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddDapr();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -35,6 +36,8 @@ builder.Services.AddScoped<ReportService>();
 builder.Services.AddScoped<ConfigService>();
 builder.Services.AddSingleton<IHadithService, HadithService>();
 
+builder.Services.AddHostedService<CommentBackGroundService>();
+builder.Services.AddScoped<INotificationService, DaprNotificationService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
