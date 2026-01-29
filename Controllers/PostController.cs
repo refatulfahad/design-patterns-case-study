@@ -129,6 +129,66 @@ namespace design_pattern_case_1.Controllers
             });
         }
 
+        [HttpGet("comments/{id}/edit-permission")]
+        public async Task<IActionResult> EditPermitted(int id)
+        {
+            var comment = await appDbContext.Comments
+                .Where(c => c.CommentId == id)
+                .FirstOrDefaultAsync();
+
+            if (comment == null)
+            {
+                return NotFound(new { message = "Comment not found" });
+            }
+
+            var commentState = Factory.CommentStateFactory.CreateState(comment.CommentState);
+            var result = commentState.Edit(id, appDbContext);
+
+            return Ok(new
+            {
+                commentId = id,
+                currentState = comment.CommentState.ToString(),
+                canEdit = result.IsAllowed,
+                message = result.Message
+            });
+        }
+
+
+        [HttpDelete("comments/{id}")]
+        public async Task<IActionResult> DeleteComment(int id)
+        {
+            var comment = await appDbContext.Comments
+                .Where(c => c.CommentId == id)
+                .FirstOrDefaultAsync();
+
+            if (comment == null)
+            {
+                return NotFound(new { message = "Comment not found" });
+            }
+
+            var commentState = Factory.CommentStateFactory.CreateState(comment.CommentState);
+            var result = await commentState.DeleteAsync(id, appDbContext);
+
+            if (!result.IsAllowed)
+            {
+                return BadRequest(new
+                {
+                    commentId = id,
+                    currentState = comment.CommentState.ToString(),
+                    success = false,
+                    message = result.Message
+                });
+            }
+
+            return Ok(new
+            {
+                commentId = id,
+                success = result.OperationPerformed,
+                message = result.Message
+            });
+        }
+
+
         //Decorator design pattern
         // hadith service 
         /// <summary>

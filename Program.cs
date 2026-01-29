@@ -1,10 +1,12 @@
 using design_pattern_case_1.Data;
 using design_pattern_case_1.Factory;
 using design_pattern_case_1.Notification;
+using design_pattern_case_1.Observer;
 using design_pattern_case_1.Services;
 using design_pattern_case_1.ThirdParty;
 using design_pattern_case_1.ThirdParty.As_Sunnah;
 using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,8 +38,25 @@ builder.Services.AddScoped<ReportService>();
 builder.Services.AddScoped<ConfigService>();
 builder.Services.AddSingleton<IHadithService, HadithService>();
 
+// Register Observer Pattern (Comment Moderation)
+builder.Services.AddSingleton<CommentSubject>(provider =>
+{
+    var subject = new CommentSubject();
+    var scopeFactory = provider.GetRequiredService<IServiceScopeFactory>();
+    
+    using var scope = scopeFactory.CreateScope();
+    var notificationService = scope.ServiceProvider.GetRequiredService<INotificationService>();
+    
+    // Attach only email notification and user ban observers
+    subject.Attach(new EmailNotificationObserver(notificationService));
+    subject.Attach(new UserBanObserver(scopeFactory));
+    
+    return subject;
+});
+
 builder.Services.AddHostedService<CommentBackGroundService>();
 builder.Services.AddScoped<INotificationService, DaprNotificationService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
