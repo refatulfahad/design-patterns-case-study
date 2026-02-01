@@ -1,8 +1,10 @@
-using design_pattern_case_1.Data;
-using design_pattern_case_1.Factory;
-using design_pattern_case_1.Notification;
-using design_pattern_case_1.Observer;
-using design_pattern_case_1.Services;
+using design_pattern_case_1.Features.Comments.Domain.Observers;
+using design_pattern_case_1.Features.Comments.Services;
+using design_pattern_case_1.Features.Reports.Factories;
+using design_pattern_case_1.Features.Reports.Services;
+using design_pattern_case_1.Infrastructure.Data;
+using design_pattern_case_1.Infrastructure.Notifications;
+using design_pattern_case_1.Shared.Configurations;
 using design_pattern_case_1.ThirdParty;
 using design_pattern_case_1.ThirdParty.As_Sunnah;
 using Microsoft.EntityFrameworkCore;
